@@ -1,8 +1,6 @@
-/property-management/node_modules
 /property-management/public/hot
 /property-management/public/storage
 /property-management/storage/*.key
-/property-management/vendor
 /property-management/.phpunit.result.cache
 /property-management/Homestead.json
 /property-management/Homestead.yaml
