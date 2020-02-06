@@ -25,4 +25,9 @@ class AdminController extends Controller
     {
         return view('admin');
     }
+
+    public function getAdminCreateRes()
+    {
+        return view('admin-create-res');
+    }
 }

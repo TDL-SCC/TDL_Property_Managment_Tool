@@ -14,7 +14,13 @@
                         </div>
                     @endif
 
-                    You are logged in as <strong>ADMIN<strong>
+                    You are logged in as <strong>ADMIN</strong>
+                </div>
+                <div class="card-body">
+                    <strong>__________________________________________________________________</strong>
+                </div>
+                <div class="card-body">
+                    <a href="{{ route('admin.create-res') }}">{{ __('Create New Reservation') }}</a>
                 </div>
             </div>
         </div>
