@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
+use App\Reservation;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -31,21 +33,42 @@ class AdminController extends Controller
         return view('admin-create-res');
     }
 
-    public function createRes(Request $request)
+    public function postAdminCreateRes(Request $request)
     {
-        // //Validate the form data
-        // $this->validate($request, [
-        //     'username' => 'required',
-        //     'password' => 'required|min:6'
-        // ]);
+        $this->validate($request, [
+            'first_name' => 'required|min:1',
+            'last_name' => 'required|min:3',
+            'middle_initial' => 'required|min:1',
+            'phone' => 'required|min:10',
+            'phone_secondary' => 'required|min:10',
+            'email' => 'required|min:5',
+            'date_of_birth' => 'required',
+            'check_in_date' => 'required',
+            'check_out_date' => 'required',
+            'room_type' => 'required|min:3',
+            'room_number' => 'required|min:4'
+        ]);
+        
+        $customer = new Customer([
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'middle_initial' => $request->input('middle_initial'),
+            'phone' => $request->input('phone'),
+            'phone_secondary' => $request->input('phone_secondary'),
+            'email' => $request->input('email'),
+            'date_of_birth' => $request->input('date_of_birth'),
+        ]);
+            $customer->save();
 
-        // //Attepmt to log the user in
-        // if (Auth::guard('admin')->attempt(['username' => $request->username, 'password' => $request->password])) {
-        //     //if successful, then redirect to their intended location
-        //     return redirect()->intended(route('admin.dashboard'));
-        // }
+        $reservation = new Reservation([
+                'check_in_date' => $request->input('check_in_date'),
+                'check_out_date' => $request->input('check_out_date'),
+                'room_type' => $request->input('room_type'),
+                'room_number' => $request->input('room_number')
+        ]);
+            $reservation->save();
 
-        // //if unsuccessful, then redirect back to the login with form data
-        // return redirect()->back()->WithInput($request->only('username', 'remember'));
+
+        return redirect()->route('admin');
     }
 }

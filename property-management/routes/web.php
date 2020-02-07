@@ -23,6 +23,6 @@ Route::prefix('admin')->group(function() {
     Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
     Route::get('/create-reservation', 'AdminController@showAdminCreateResForm')->name('admin.create-res');
-    Route::post('/create-reservation', 'AdminController@createRes')->name('admin.create-res.submit');
+    Route::post('/create-reservation', 'AdminController@postAdminCreateRes')->name('admin.create-res.submit');
     Route::get('/', 'AdminController@index')->name('admin.dashboard');
 });
