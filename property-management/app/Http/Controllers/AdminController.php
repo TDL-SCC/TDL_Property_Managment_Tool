@@ -69,6 +69,6 @@ class AdminController extends Controller
             $reservation->save();
 
 
-        return redirect()->route('admin');
+        return redirect()->route('admin.dashboard');
     }
 }
