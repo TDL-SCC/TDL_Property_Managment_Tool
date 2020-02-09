@@ -1,0 +1,10 @@
+/property-management/node_modules
+/property-management/public/hot
+/property-management/public/storage
+/property-management/storage/*.key
+/property-management/.phpunit.result.cache
+/property-management/Homestead.json
+/property-management/Homestead.yaml
+/property-management/npm-debug.log
+/property-management/yarn-error.log
+/property-management/.env
