@@ -49,7 +49,9 @@ class AdminController extends Controller
             'room_number' => 'required|min:4'
         ]);
 
-        $customer = new Customer([
+        
+        $customer = Customer::create([
+
             'first_name' => $request->input('first_name'),
             'last_name' => $request->input('last_name'),
             'middle_initial' => $request->input('middle_initial'),
@@ -58,14 +60,17 @@ class AdminController extends Controller
             'email' => $request->input('email'),
             'date_of_birth' => $request->input('date_of_birth'),
         ]);
+            
             $customer->save();
 
-        $reservation = new Reservation([
+        $reservation = Reservation::create([
                 'check_in_date' => $request->input('check_in_date'),
                 'check_out_date' => $request->input('check_out_date'),
                 'room_type' => $request->input('room_type'),
-                'room_number' => $request->input('room_number')
+                'room_number' => $request->input('room_number'),
+                'customer_id' => $customer['id']
         ]);
+
             $reservation->save();
 
 
