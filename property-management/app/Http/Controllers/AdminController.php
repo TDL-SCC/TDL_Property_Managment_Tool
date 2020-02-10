@@ -48,8 +48,10 @@ class AdminController extends Controller
             'room_type' => 'required|min:3',
             'room_number' => 'required|min:4'
         ]);
+
         
         $customer = Customer::create([
+
             'first_name' => $request->input('first_name'),
             'last_name' => $request->input('last_name'),
             'middle_initial' => $request->input('middle_initial'),
@@ -73,5 +75,11 @@ class AdminController extends Controller
 
 
         return redirect()->route('admin.dashboard');
+    }
+
+    public function getAllReservations(){
+        $reservations = Reservation::all();
+
+        return view('all-reservations', compact('reservations'));
     }
 }
