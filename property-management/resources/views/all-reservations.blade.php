@@ -24,7 +24,7 @@
                         <td>{{ $reservation['check_out_date'] }}</td>
                         <td>{{ $reservation['room_type'] }}</td>
                         <td>{{ $reservation['room_number'] }}</td>
-                        <td><a href="" class="btn btn-outline-primary">Update</a></td>
+                        <td><a href="{{ route('admin.show-update-res', ['id' => $reservation['id']])}}" class="btn btn-outline-primary">Update</a></td>
                         <td><a href="" class="btn btn-outline-danger">Delete</a></td>
                     </tr>
                 @endforeach
