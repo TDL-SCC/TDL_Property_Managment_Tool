@@ -133,4 +133,10 @@ class AdminController extends Controller
 
         return view('all-reservations', compact('reservations'));
     }
+
+    public function getAllCustomers(){
+        $customers = Customer::all();
+
+        return view('admin-all-customers', compact('customers'));
+    }
 }
