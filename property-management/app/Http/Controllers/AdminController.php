@@ -57,7 +57,7 @@ class AdminController extends Controller
             'room_number' => 'required|min:4'
         ]);
 
-        
+
         $customer = Customer::create([
 
             'first_name' => $request->input('first_name'),
@@ -68,7 +68,7 @@ class AdminController extends Controller
             'email' => $request->input('email'),
             'date_of_birth' => $request->input('date_of_birth'),
         ]);
-            
+
             $customer->save();
 
         $reservation = Reservation::create([
@@ -121,7 +121,7 @@ class AdminController extends Controller
         $customer['phone_secondary'] = $request->input('phone_secondary');
         $customer['email'] = $request->input('email');
         $customer['date_of_birth'] = $request->input('date_of_birth');
-            
+
         $customer->save();
 
 
@@ -138,5 +138,26 @@ class AdminController extends Controller
         $customers = Customer::all();
 
         return view('admin-all-customers', compact('customers'));
+    }
+
+    public function getDeleteRoute($id){
+        $reservation = Reservation::where('id', $id)->first();
+        if(!$reservation){
+            return redirect()->back();
+        }
+        return view('admin-delete-reservation', compact('reservation'));
+    }
+
+    public function postDeleteReservation($id){
+        $reservation = Reservation::where('id', $id)->first();
+        $operation = 'cancelled';
+        if(!$reservation){
+            return redirect()->back();
+        }
+
+        $reservation['cancelled'] = 'true';
+        $reservation->save();
+
+        return redirect()->route('admin.get-all-reservations');
     }
 }

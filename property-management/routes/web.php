@@ -34,4 +34,8 @@ Route::prefix('admin')->group(function() {
     Route::get('/get-all-reservations', 'AdminController@getAllReservations')->name('admin.get-all-reservations');
 
     Route::get('/get-all-customers', 'AdminController@getAllCustomers')->name('admin.get-all-customers');
+
+    //delete routes
+    Route::get('/get-delete-reservation/{id}', 'AdminController@getDeleteRoute')->name('admin.get-delete-reservation');
+    Route::post('/delete-reservation/{id}', 'AdminController@postDeleteReservation')->name('admin.delete-reservation');
 });
