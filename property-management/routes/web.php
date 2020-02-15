@@ -32,4 +32,6 @@ Route::prefix('admin')->group(function() {
     Route::get('/', 'AdminController@index')->name('admin.dashboard');
 
     Route::get('/get-all-reservations', 'AdminController@getAllReservations')->name('admin.get-all-reservations');
+
+    Route::get('/get-all-customers', 'AdminController@getAllCustomers')->name('admin.get-all-customers');
 });
