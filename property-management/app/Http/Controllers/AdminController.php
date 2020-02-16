@@ -134,6 +134,23 @@ class AdminController extends Controller
         return view('all-reservations', compact('reservations'));
     }
 
+    public function getAllReservationsFilterByCheckIn(Request $request) {
+        $this->validate($request, [
+            'min_check_in_date' => 'required',
+            'max_check_in_date' => 'required'
+        ]);
+
+        $minCheckInDate = $request->input('min_check_in_date');
+        $maxCheckInDate = $request->input('max_check_in_date');
+
+        $reservations = Reservation::all()->where('check_in_date', '>=', $minCheckInDate)
+            ->where('check_in_date', '<=', $maxCheckInDate)
+            ->sortBy('check_in_date');
+
+
+        return view('all-reservations', compact('reservations'));
+    }
+
     public function getAllCustomers(){
         $customers = Customer::all();
 
