@@ -15,4 +15,8 @@ class Reservation extends Model
     public function customer() {
         return $this->belongsTo('App/Customer');
     }
+
+    public function room() {
+        return $this->belongsTo('App/Room', 'room_number', 'room_number');
+    }
 }
