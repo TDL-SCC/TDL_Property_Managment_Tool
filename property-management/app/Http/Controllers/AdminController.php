@@ -98,7 +98,7 @@ class AdminController extends Controller
             'check_in_date' => 'required',
             'check_out_date' => 'required',
             'room_type' => 'required|min:3',
-            'room_number' => 'required|min:4'
+            'room_number' => 'required|min:3'
         ]);
 
         $id = $request->input('reservationId');
