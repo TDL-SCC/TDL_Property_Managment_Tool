@@ -38,7 +38,7 @@
     <!--DELETE LATER-->
     <section class="container">
         @foreach($activeReservations as $activeRes)
-            <li>{{ $activeRes[0] }}</li>
+            <li>{{ $activeRes }}</li>
         @endforeach
 
 

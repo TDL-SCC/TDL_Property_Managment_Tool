@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\Reservation;
+use App\Room;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -196,6 +197,17 @@ class AdminController extends Controller
     // Checks to see if the dates of the new reservation conflict with any other reservation dates
     private function checkConflictingReservations($check_in_date, $check_out_date)
     {
+        // get all rooms
+        $allRooms = Room::all()->pluck('room_number');
+        $roomArray = array();
+        $removeRoomsArray = array();
+        // place all rooms in an array
+        foreach ($allRooms as $grabRoom) {
+            array_push($roomArray, $grabRoom);
+        }
+//        $removeRoom = array_search('116', $roomArray);
+//        unset($roomArray[$removeRoom]);
+
         // get all active reservations
         $allActiveReservations = Reservation::where('room_status', '=', 'active')->get();
 
@@ -233,9 +245,29 @@ class AdminController extends Controller
                 array_push($dateArray, $compareDate->format('Y-m-d'));
             }
 
-            //push room number and date array into the compare
-            $compareArray[$compareRoom] =$dateArray;
-            return $compareArray;
+            //compare dates in dateArray to dates in the newResDays
+            foreach ($dateArray as $dateArrDate){
+                foreach ($newResDays as $newResDay) {
+                    if( $newResDay == $dateArrDate ){
+                        array_push($removeRoomsArray, $compareRoom);
+                    }
+                }
+            }
+            return $removeRoomsArray;
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
