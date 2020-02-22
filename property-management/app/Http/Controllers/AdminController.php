@@ -205,8 +205,6 @@ class AdminController extends Controller
         foreach ($allRooms as $grabRoom) {
             array_push($roomArray, $grabRoom);
         }
-//        $removeRoom = array_search('116', $roomArray);
-//        unset($roomArray[$removeRoom]);
 
         // get all active reservations
         $allActiveReservations = Reservation::where('room_status', '=', 'active')->get();
@@ -225,8 +223,6 @@ class AdminController extends Controller
 
         //loop through active reservations
         foreach ($allActiveReservations as $compareReservation) {
-            //array to hold all the comparison dates
-            $compareArray = array();
             $compareRoom = $compareReservation['room_number'];
             $compareCheckIn = $compareReservation['check_in_date'];
             $compareCheckOut = $compareReservation['check_out_date'];
@@ -249,11 +245,13 @@ class AdminController extends Controller
             foreach ($dateArray as $dateArrDate){
                 foreach ($newResDays as $newResDay) {
                     if( $newResDay == $dateArrDate ){
-                        array_push($removeRoomsArray, $compareRoom);
+                        //array_push($removeRoomsArray, $compareRoom);
+                        $removeRoom = array_search($compareRoom, $roomArray);
+                        unset($roomArray[$removeRoom]);
                     }
                 }
             }
-            return $removeRoomsArray;
+            return $roomArray;
         }
     }
 }
