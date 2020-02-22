@@ -16,9 +16,9 @@
         </ul>
 
 
-            <form action="{{ route('admin.delete-reservation', ['id' => $reservation['id']]) }}"
-                  method="post" class="my-3">
-                <div>
+        <form action="{{ route('admin.delete-reservation', ['id' => $reservation['id']]) }}"
+              method="post" class="my-3">
+            <div>
                 <a href="{{ route('admin.get-all-reservations') }}"
                    class="btn btn-outline-primary">Back to Reservations</a>
 
@@ -30,8 +30,19 @@
 
 
                 {{csrf_field()}}
-                </div>
-            </form>
+            </div>
+        </form>
+
+    </section>
+
+    <!--DELETE LATER-->
+    <section class="container">
+        @if(!empty($activeReservations))
+            @foreach($activeReservations as $activeRes)
+                <li>{{ $activeRes }}</li>
+            @endforeach
+        @endif
+
 
     </section>
 

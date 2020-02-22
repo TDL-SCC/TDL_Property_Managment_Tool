@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\Reservation;
+use App\Room;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -48,13 +49,12 @@ class AdminController extends Controller
             'last_name' => 'required|min:3',
             'middle_initial' => 'required|min:1',
             'phone' => 'required|min:10',
-            'phone_secondary' => 'required|min:10',
             'email' => 'required|min:5',
             'date_of_birth' => 'required',
             'check_in_date' => 'required',
             'check_out_date' => 'required',
             'room_type' => 'required|min:3',
-            'room_number' => 'required|min:4'
+            'room_number' => 'required|min:3'
         ]);
 
 
@@ -69,17 +69,18 @@ class AdminController extends Controller
             'date_of_birth' => $request->input('date_of_birth'),
         ]);
 
-            $customer->save();
+        $customer->save();
 
         $reservation = Reservation::create([
-                'check_in_date' => $request->input('check_in_date'),
-                'check_out_date' => $request->input('check_out_date'),
-                'room_type' => $request->input('room_type'),
-                'room_number' => $request->input('room_number'),
-                'customer_id' => $customer['id']
+            'check_in_date' => $request->input('check_in_date'),
+            'check_out_date' => $request->input('check_out_date'),
+            'room_type' => $request->input('room_type'),
+            'room_number' => $request->input('room_number'),
+            'customer_id' => $customer['id'],
+            'room_status' => 'active'
         ]);
 
-            $reservation->save();
+        $reservation->save();
 
 
         return redirect()->route('admin.dashboard');
@@ -128,13 +129,15 @@ class AdminController extends Controller
         return redirect()->route('admin.get-all-reservations');
     }
 
-    public function getAllReservations(){
+    public function getAllReservations()
+    {
         $reservations = Reservation::all();
 
         return view('all-reservations', compact('reservations'));
     }
 
-    public function getAllReservationsFilterByCheckIn(Request $request) {
+    public function getAllReservationsFilterByCheckIn(Request $request)
+    {
         $this->validate($request, [
             'min_check_in_date' => 'required',
             'max_check_in_date' => 'required'
@@ -151,24 +154,35 @@ class AdminController extends Controller
         return view('all-reservations', compact('reservations'));
     }
 
-    public function getAllCustomers(){
+    public function getAllCustomers()
+    {
         $customers = Customer::all();
 
         return view('admin-all-customers', compact('customers'));
     }
 
-    public function getDeleteRoute($id){
+    public function getDeleteRoute($id)
+    {
         $reservation = Reservation::where('id', $id)->first();
-        if(!$reservation){
+        if (!$reservation) {
             return redirect()->back();
         }
-        return view('admin-delete-reservation', compact('reservation'));
+
+        //testing for private function
+        $activeReservations = $this->checkConflictingReservations($reservation['check_in_date'],
+            $reservation['check_out_date']);
+
+
+        return view('admin-delete-reservation',
+            compact('reservation'),
+            compact('activeReservations'));
     }
 
-    public function postDeleteReservation($id){
+    public function postDeleteReservation($id)
+    {
         $reservation = Reservation::where('id', $id)->first();
         $operation = 'cancelled';
-        if(!$reservation){
+        if (!$reservation) {
             return redirect()->back();
         }
 
@@ -177,4 +191,81 @@ class AdminController extends Controller
 
         return redirect()->route('admin.get-all-reservations');
     }
+
+
+    //------------------PRIVATE FUNCTIONS-----------------------
+    // Checks to see if the dates of the new reservation conflict with any other reservation dates
+    private function checkConflictingReservations($check_in_date, $check_out_date)
+    {
+        // get all rooms
+        $allRooms = Room::all()->pluck('room_number');
+        $roomArray = array();
+        $removeRoomsArray = array();
+        // place all rooms in an array
+        foreach ($allRooms as $grabRoom) {
+            array_push($roomArray, $grabRoom);
+        }
+
+        // get all active reservations
+        $allActiveReservations = Reservation::where('room_status', '=', 'active')->get();
+
+        //calculate the number of days for the reservation
+        $newCheckIn = date_create_from_format('Y-m-d', $check_in_date);
+        $newCheckOut = date_create_from_format('Y-m-d', $check_out_date);
+        $newResDuration = date_diff($newCheckIn, $newCheckOut)->format('%a');
+
+        //loop to get all days within the reservation
+        $newResDays = array();
+        for ($i = 0; $i < $newResDuration - 1; $i++) {
+            $newDate = date_add($newCheckIn, date_interval_create_from_date_string(strval($i) . " days"));
+            array_push($newResDays, $newDate->format('Y-m-d'));
+        }
+
+        //loop through active reservations
+        foreach ($allActiveReservations as $compareReservation) {
+            $compareRoom = $compareReservation['room_number'];
+            $compareCheckIn = $compareReservation['check_in_date'];
+            $compareCheckOut = $compareReservation['check_out_date'];
+
+            //calculate the length of each stay
+            //convert to private function later
+            //calculate the number of days for the reservation
+            $newCheckIn = date_create_from_format('Y-m-d', $compareCheckIn);
+            $newCheckOut = date_create_from_format('Y-m-d', $compareCheckOut);
+            $newResDuration = date_diff($newCheckIn, $newCheckOut)->format('%a');
+
+            //loop to get all days within the reservations. Place them into an array
+            $dateArray = array();
+            for ($i = 0; $i < $newResDuration - 1; $i++) {
+                $compareDate = date_add($newCheckIn, date_interval_create_from_date_string(strval($i) . " days"));
+                array_push($dateArray, $compareDate->format('Y-m-d'));
+            }
+
+            //compare dates in dateArray to dates in the newResDays
+            foreach ($dateArray as $dateArrDate){
+                foreach ($newResDays as $newResDay) {
+                    if( $newResDay == $dateArrDate ){
+                        //array_push($removeRoomsArray, $compareRoom);
+                        $removeRoom = array_search($compareRoom, $roomArray);
+                        unset($roomArray[$removeRoom]);
+                    }
+                }
+            }
+            return $roomArray;
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
