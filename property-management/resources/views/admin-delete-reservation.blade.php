@@ -42,8 +42,6 @@
                 <li>{{ $activeRes }}</li>
             @endforeach
         @endif
-
-
     </section>
 
 
