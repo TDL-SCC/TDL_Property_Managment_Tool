@@ -39,3 +39,5 @@ Route::prefix('admin')->group(function() {
     Route::get('/get-delete-reservation/{id}', 'AdminController@getDeleteRoute')->name('admin.get-delete-reservation');
     Route::post('/delete-reservation/{id}', 'AdminController@postDeleteReservation')->name('admin.delete-reservation');
 });
+
+Route::get('api/getAvailableRooms', 'AdminController@getAvailableRooms')->name('api.getAvailableRooms');

@@ -110,6 +110,7 @@ class AdminController extends Controller
         $reservation['check_out_date'] = $request->input('check_out_date');
         $reservation['room_type'] = $request->input('room_type');
         $reservation['room_number'] = $request->input('room_number');
+        $reservation['room_status'] = "active";
 
         $reservation->save();
 
@@ -190,6 +191,16 @@ class AdminController extends Controller
         $reservation->save();
 
         return redirect()->route('admin.get-all-reservations');
+    }
+
+
+    public function getAvailableRooms(Request $request)
+    {
+        $start = $request->input('start_date');
+        $end = $request->input('end_date');
+        $availableRooms = $this->checkConflictingReservations($start, $end);
+
+        return response(compact('availableRooms'));
     }
 
 
