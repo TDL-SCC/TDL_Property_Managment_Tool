@@ -10,7 +10,8 @@ class Reservation extends Model
                             'check_out_date',
                             'room_type',
                             'room_number',
-                            'customer_id'];
+                            'customer_id',
+                            'room_status'];
 
     public function customer() {
         return $this->belongsTo('App/Customer');

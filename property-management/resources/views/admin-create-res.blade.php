@@ -167,13 +167,13 @@
                             <label for="room_number" class="col-md-4 col-form-label text-md-right">{{ __('Room Number') }}</label>
                             
                             <div class="col-md-3"> 
-                                <input id="room_number" type="text" class="form-control @error('room_number') is-invalid @enderror" name="room_number" value="{{ old('room_number') }}" required autocomplete="room number">
-
-                                @error('room_number')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select  id="room_number" 
+                                class="form-control @error('room_number') is-invalid @enderror" 
+                                name="room_number" 
+                                value="{{ old('room_number') }}" 
+                                required autocomplete="room number">
+                                    <option>Please Select Dates First</option>
+                                </select>
                             </div>
                         </div>
 
