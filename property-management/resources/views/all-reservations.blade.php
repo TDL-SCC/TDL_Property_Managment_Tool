@@ -76,6 +76,8 @@
                             <td>{{ $reservation['check_out_date'] }}</td>
                             <td>{{ $reservation['room_type'] }}</td>
                             <td>{{ $reservation['room_number'] }}</td>
+                            <td><a href="{{ route('admin.get-reservation', ['id' => $reservation['id']])}}"
+                                class="btn btn-outline-primary">View Reservation</a></td>
                             <td><a href="{{ route('admin.show-update-res', ['id' => $reservation['id']])}}"
                                    class="btn btn-outline-primary">Update Reservation</a></td>
                             <td>
