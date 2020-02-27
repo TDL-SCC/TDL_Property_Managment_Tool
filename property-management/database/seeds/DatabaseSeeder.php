@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Room;
+use App\Price;
 
 class DatabaseSeeder extends Seeder
 {
@@ -76,6 +77,30 @@ class DatabaseSeeder extends Seeder
                     ]);
                 }
             }
-        }   
+        }
+        
+        $prices = Price::all();
+
+        if($prices->count() == 0) {
+            DB::table('prices')->insert([
+                'room_type' => 'Queen',
+                'price' => 99.00
+            ]);
+
+            DB::table('prices')->insert([
+                'room_type' => 'Two Queen',
+                'price' => 109.00
+            ]);
+
+            DB::table('prices')->insert([
+                'room_type' => 'King',
+                'price' => 129.00
+            ]);
+
+            DB::table('prices')->insert([
+                'room_type' => 'Exec Suite',
+                'price' => 189.00
+            ]);
+        }
     }
 }

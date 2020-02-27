@@ -13,4 +13,8 @@ class Room extends Model
     public function reservation() {
         return $this->hasMany('App/Reservation', 'room_number', 'room_number');
     }
+
+    public function price() {
+        return $this->hasOne('App/Price', 'room_type', 'room_type');
+    }
 }
