@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Customer;
 use App\Reservation;
 use App\Room;
+use App\Price;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -153,6 +154,21 @@ class AdminController extends Controller
 
 
         return view('all-reservations', compact('reservations'));
+    }
+
+    public function getReservationById(int $id) {
+
+        $reservation = Reservation::where('id', $id)->first();
+        if (!$reservation) {
+            return redirect()->back();
+        }
+
+
+        $customer = Customer::where('id', $reservation['customer_id'])->first();
+
+        $price = Price::where('room_type', $reservation['room_type'])->first();
+
+        return view('admin-get-res', compact('reservation', 'customer', 'price'));
     }
 
     public function getAllCustomers()
