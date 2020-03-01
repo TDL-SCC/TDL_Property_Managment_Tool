@@ -171,6 +171,30 @@ class AdminController extends Controller
         return view('admin-get-res', compact('reservation', 'customer', 'price'));
     }
 
+    public function getReceiptByReservationId(int $id) {
+
+        $reservation = Reservation::where('id', $id)->first();
+        if (!$reservation) {
+            return redirect()->back();
+        }
+
+
+        $customer = Customer::where('id', $reservation['customer_id'])->first();
+
+        $price = Price::where('room_type', $reservation['room_type'])->first();
+        
+
+        $check_in_date = $reservation['check_in_date'];
+        $check_out_date = $reservation['check_out_date'];
+
+        $newCheckIn = date_create_from_format('Y-m-d', $check_in_date);
+        $newCheckOut = date_create_from_format('Y-m-d', $check_out_date);
+
+        $days = date_diff($newCheckIn, $newCheckOut)->format('%a');
+
+        return view('admin-get-res-receipt', compact('reservation', 'customer', 'price', 'days'));
+    }
+
     public function getAllCustomers()
     {
         $customers = Customer::all();
