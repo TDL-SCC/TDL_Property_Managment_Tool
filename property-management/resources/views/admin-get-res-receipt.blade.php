@@ -32,8 +32,8 @@
                                 <td>{{$reservation['check_out_date']}}</td>
                                 <td>{{$reservation['room_type']}}</td>
                                 <td>{{$reservation['room_number']}}</td>
-                                <td>*Will show nightly here*{{$price}} per night</td>
-                            <td>{{$days}}</td>
+                                <td>$ {{$price['price']}}.00</td>
+                                <td>{{$days}}</td>
                                 <td>*Total*</td>
                             </tr>
                         </table>
@@ -49,13 +49,9 @@
                                 <tr>
                                     <td>*Card Number</td>
                                     <td>*expMonth/expYear</td>
-                                    {{-- <td>{{$card['cardNumber']}}</td>
-                                    <td>{{$card['expMonth']}}/{{$card['expYear']}}</td> --}}
                                 </tr>
                             </table>
                         </div>
-
-        
                     </div>
                 </div>
         </div>
