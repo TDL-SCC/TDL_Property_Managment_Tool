@@ -167,7 +167,7 @@
                             <label for="room_number" class="col-md-4 col-form-label text-md-right">{{ __('Room Number') }}</label>
                             
                             <div class="col-md-3"> 
-                                <select  id="room_number" 
+                                <select id="room_number" 
                                 class="form-control @error('room_number') is-invalid @enderror" 
                                 name="room_number" 
                                 value="{{ old('room_number') }}" 

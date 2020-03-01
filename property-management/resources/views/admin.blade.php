@@ -17,10 +17,10 @@
                     You are logged in as <strong>ADMIN</strong>
                 </div>
                 <div class="card-body">
-                    <strong>__________________________________________________________________</strong>
+                    <a href="{{ route('admin.create-res') }}">{{ __('Create New Reservation') }}</a>
                 </div>
                 <div class="card-body">
-                    <a href="{{ route('admin.create-res') }}">{{ __('Create New Reservation') }}</a>
+                    <a href="{{ route('admin.get-all-reservations') }}">{{ __('View All Reservations') }}</a>
                 </div>
             </div>
         </div>

@@ -37,6 +37,8 @@ Route::prefix('admin')->group(function() {
 
     Route::get('/get-reservation/{id}', 'AdminController@getReservationById')->name('admin.get-reservation');
 
+    Route::get('/get-receipt/reservation/{id}', 'AdminController@getReceiptByReservationId')->name('admin.get-receipt');
+
     //delete routes
     Route::get('/get-delete-reservation/{id}', 'AdminController@getDeleteRoute')->name('admin.get-delete-reservation');
     Route::post('/delete-reservation/{id}', 'AdminController@postDeleteReservation')->name('admin.delete-reservation');
