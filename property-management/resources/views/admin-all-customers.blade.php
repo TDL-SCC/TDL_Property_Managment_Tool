@@ -28,6 +28,7 @@
                         <td>{{ $customer['phone_secondary'] }}</td>
                         <td>{{ $customer['email'] }}</td>
                         <td>{{ $customer['date_of_birth'] }}</td>
+                        <td><a  href="{{ route('admin.create-customer-res', ['id' => $customer['id']])}}" class="btn btn-outline-success">New Reservation</a></td>
                         <td><a href="" class="btn btn-outline-primary">Update</a></td>
                         <td><a href="" class="btn btn-outline-danger">Delete</a></td>
                     </tr>

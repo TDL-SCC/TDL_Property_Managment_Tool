@@ -35,6 +35,13 @@ class AdminController extends Controller
         return view('admin-create-res');
     }
 
+    public function showAdminCreateCustomerResForm($id)
+    {
+        $customer = Customer::find($id);
+
+        return view('admin-create-customer-res', compact('id', 'customer'));
+    }
+
     public function showAdminShowUpdateResForm($id)
     {
         $reservation = Reservation::find($id);
@@ -69,6 +76,48 @@ class AdminController extends Controller
             'email' => $request->input('email'),
             'date_of_birth' => $request->input('date_of_birth'),
         ]);
+
+        $customer->save();
+
+        $reservation = Reservation::create([
+            'check_in_date' => $request->input('check_in_date'),
+            'check_out_date' => $request->input('check_out_date'),
+            'room_type' => $request->input('room_type'),
+            'room_number' => $request->input('room_number'),
+            'customer_id' => $customer['id'],
+            'room_status' => 'active'
+        ]);
+
+        $reservation->save();
+
+
+        return redirect()->route('admin.dashboard');
+    }
+
+    public function postAdminCreateCustomerRes(Request $request)
+    {
+        $this->validate($request, [
+            'first_name' => 'required|min:1',
+            'last_name' => 'required|min:3',
+            'middle_initial' => 'required|min:1',
+            'phone' => 'required|min:10',
+            'email' => 'required|min:5',
+            'date_of_birth' => 'required',
+            'check_in_date' => 'required',
+            'check_out_date' => 'required',
+            'room_type' => 'required|min:3',
+            'room_number' => 'required|min:3'
+        ]);
+
+        $customer = Customer::find($request->input('customerId'))->first();
+
+        $customer['first_name'] = $request->input('first_name');
+        $customer['last_name'] = $request->input('last_name');
+        $customer['middle_initial'] = $request->input('middle_initial');
+        $customer['phone'] = $request->input('phone');
+        $customer['phone_secondary'] = $request->input('phone_secondary');
+        $customer['email'] = $request->input('email');
+        $customer['date_of_birth'] = $request->input('date_of_birth');
 
         $customer->save();
 
