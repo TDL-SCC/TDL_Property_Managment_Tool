@@ -76,16 +76,82 @@
                             <td>{{ $reservation['check_out_date'] }}</td>
                             <td>{{ $reservation['room_type'] }}</td>
                             <td>{{ $reservation['room_number'] }}</td>
-                            <td><a href="{{ route('admin.get-receipt', ['id' => $reservation['id']])}}"
-                                class="btn btn-outline-primary">View Receipt</a></td>
+
+                            @if($reservation['room_status'] == 'active')
+                                <td><a href=""
+                                       class="btn btn-outline-primary" data-toggle = "modal" data-target = "#checkInModal">Check-In Guest</a></td>
+
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="checkInModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Would you like to check-in Guest: {{ $reservation['customer_id'] }}?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <a href="{{ route('admin.check-guest-in', ['id' => $reservation['id']] ) }}" class="btn btn-primary">Check Guest In</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @elseif($reservation['room_status'] == 'checked-in')
+                                <td><a href=""
+                                       class="btn btn-outline-primary" data-toggle = "modal" data-target = "#checkOutModal">Check-In Guest</a></td>
+
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="checkOutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Would you like to check-out Guest: {{ $reservation['customer_id'] }}?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <a href="{{ route('admin.check-guest-out', ['id' => $reservation['id']] ) }}" class="btn btn-warning">CHECK OUT</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @elseif($reservation['room_status'] == 'checked-out')
+                                <td><a href="{{ route('admin.get-receipt', ['id' => $reservation['id']])}}"
+                                    class="btn btn-outline-primary">View Receipt</a></td>
+                            @endif
                             <td><a href="{{ route('admin.get-reservation', ['id' => $reservation['id']])}}"
                                 class="btn btn-outline-primary">View Reservation</a></td>
-                            <td><a href="{{ route('admin.show-update-res', ['id' => $reservation['id']])}}"
-                                   class="btn btn-outline-primary">Update Reservation</a></td>
+
+                            <td><a  href="{{ route('admin.show-update-res', ['id' => $reservation['id']])}}"
+                                    @if($reservation['room_status'] == 'checked-out')
+                                        class="btn btn-outline-secondary disabled"
+                                    @else
+                                        class="btn btn-outline-primary"
+                                    @endif
+                                    >Update Reservation</a></td>
+
                             <td>
                                 <a href="{{ route('admin.get-delete-reservation', ['id' => $reservation['id']]) }}"
-                                   class="btn btn-outline-danger">Cancel Reservation</a>
+                                   @if($reservation['room_status'] == 'checked-out')
+                                   class="btn btn-outline-secondary disabled"
+                                   @else
+                                   class="btn btn-outline-danger"
+                                    @endif
+                                >Cancel Reservation</a>
                             </td>
+
                         </tr>
                     @endif
                 @endforeach

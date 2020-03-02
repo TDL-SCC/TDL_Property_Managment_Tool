@@ -182,7 +182,7 @@ class AdminController extends Controller
         $customer = Customer::where('id', $reservation['customer_id'])->first();
 
         $price = Price::where('room_type', $reservation['room_type'])->first();
-        
+
 
         $check_in_date = $reservation['check_in_date'];
         $check_out_date = $reservation['check_out_date'];
@@ -230,7 +230,7 @@ class AdminController extends Controller
         $reservation['cancelled'] = 'true';
         $reservation->save();
 
-        return redirect()->route('admin.get-all-reservations');
+        return redirect()->back();
     }
 
 
@@ -241,6 +241,24 @@ class AdminController extends Controller
         $availableRooms = $this->checkConflictingReservations($start, $end);
 
         return response(compact('availableRooms'));
+    }
+
+    public function checkGuestIn($id)
+    {
+        $reservation = Reservation::where('customer_id', $id)->first();
+
+        $reservation['room_status'] = 'checked-in';
+        $reservation->save();
+        return redirect()->route('admin.get-all-reservations');
+    }
+
+    public function checkGuestOut($id)
+    {
+        $reservation = Reservation::where('customer_id', $id)->first();
+
+        $reservation['room_status'] = 'checked-out';
+        $reservation->save();
+        return redirect()->route('admin.get-all-reservations');
     }
 
 
