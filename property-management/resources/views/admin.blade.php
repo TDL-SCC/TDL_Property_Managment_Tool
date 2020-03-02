@@ -17,10 +17,25 @@
                     You are logged in as <strong>ADMIN</strong>
                 </div>
                 <div class="card-body">
-                    <a href="{{ route('admin.create-res') }}">{{ __('Create New Reservation') }}</a>
+                    <h1>Reservations:</h1>
+                    <a href="{{route('admin.get-all-reservations')}}">
+                        <button type="button" class="btn btn-primary">
+                            {{ __('View All') }}
+                        </button>
+                    </a>
+                    <a href="{{route('admin.create-res')}}">
+                        <button type="button" class="btn btn-success">
+                            {{ __('Create New') }}
+                        </button>
+                    </a>
                 </div>
                 <div class="card-body">
-                    <a href="{{ route('admin.get-all-reservations') }}">{{ __('View All Reservations') }}</a>
+                    <h1>Customers:</h1>
+                    <a href="{{route('admin.get-all-customers')}}">
+                        <button type="button" class="btn btn-primary">
+                            {{ __('View All') }}
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>

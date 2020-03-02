@@ -27,6 +27,9 @@ Route::prefix('admin')->group(function() {
     Route::get('/update-reservation/{id}', 'AdminController@showAdminShowUpdateResForm')->name('admin.show-update-res');
     Route::post('/update-reservation', 'AdminController@postAdminUpdateRes')->name('admin.update-res.submit');
 
+    Route::get('/create-customer-reservation/{id}','AdminController@showAdminCreateCustomerResForm')->name('admin.create-customer-res');
+    Route::post('/create-customer-reservation', 'AdminController@postAdminCreateCustomerRes')->name('admin.create-customer-res.submit');
+
     Route::get('/', 'AdminController@index')->name('admin.dashboard');
 
     Route::get('/get-all-reservations', 'AdminController@getAllReservations')->name('admin.get-all-reservations');
