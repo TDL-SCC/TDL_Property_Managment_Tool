@@ -57,7 +57,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Name</th>
+                <th>Customer</th>
                 <th>Check-In Date</th>
                 <th>Check-Out Date</th>
                 <th>Room Type</th>
@@ -71,7 +71,7 @@
                 @foreach($reservations as $reservation)
                     @if($reservation['cancelled'] != 'true')
                         <tr>
-                            <td class="my-auto">{{ $reservation['customer_id'] }}</td>
+                            <td class="my-auto">Customer: {{ $reservation['customer_id'] }}</td>
                             <td>{{ $reservation['check_in_date'] }}</td>
                             <td>{{ $reservation['check_out_date'] }}</td>
                             <td>{{ $reservation['room_type'] }}</td>
